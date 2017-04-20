@@ -145,7 +145,15 @@ var EventUtil = {
 <iframe data-src="https://wangminghuan.github.io/demo-01.html" src="about:blank;"></iframe>
 
 [slide]
-## Event对象下的方法-阻止冒泡 
-
+## Event对象下的方法-阻止默认事件  
+```` 
+	<a class="btn" href="http://bj.58.com">58同城-北京</a>
+	<a class="btn" href="http://sh.58.com">58同城-上海</a>
+   
+    var oBtn = document.getElementsByClassName("btn");
+	 oBtn[1].addEventListener("click",function(event){
+	      event.preventDefault();
+	    },false)
+```` 
 [slide]
 ##http://blog.jobbole.com/52430/
