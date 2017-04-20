@@ -43,14 +43,16 @@ javaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文
 		alert("Clicked");
 	};
 ````
+- 移除事件
+````
+ 	btn.onclick=null  
+````
 - 缺点：前后覆盖
-
 [slide]
 
 ## 3.3 DOM2级事件中的事件处理方法 
 
 `addEventListener()`  
-
 
 ````
 	var btn = document.getElementById("myBtn");
@@ -73,13 +75,77 @@ javaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文
 	})  
    //IE8.0及其以下版本支持
 ````
+[slide]
+## DOM2级事件中的事件的解绑  
 
-````
-    btn.attachEvent("onclick",function(){
-       alert("Clicked-1");
-	})
-   btn.attachEvent("onclick",function(){
-       alert("Clicked-2");
-	})
-	//IE7会先先弹Clicked-2，再Clicked-1。IE7以上正好相反
+- `addEventListener()` <---->`removeEventListener()` 
+
+- `attachEvent` <----> `detachEvent`  
+-  匿名回调函数无法解绑, 必须要回调函数的引用
+ ````
+   btn.addEventListener("click",function(){
+       alert("Clicked");
+	},false) 
+	btn.removeEventListener("click",function(){
+       alert("Clicked");
+	},false) 
+
+ ````  
+[slide]
+兼容写法：  
 ```` 
+var EventUtil = {
+    addHandler: function(element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = handler;
+        }
+    },
+    removeHandler: function(element, type, handler) {
+        if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+        } else if (element.detachEvent) {
+            element.detachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = null;
+        }
+    }
+};
+```` 
+
+[slide]
+## Event对象
+- 事件第一次触发的时候被创建
+- 作为第一个参数传递给事件监听的回调函数(非IE)
+- IE下通过 window.event访问
+- click事件的event
+![click的event对象](../img/03.png)
+
+[slide]
+## Event对象下的方法-阻止冒泡 
+```` 
+	var btn = document.getElementById("btn");
+	var wrap= document.getElementById("wrap");
+	 btn.addEventListener("click",function(event){
+	    //event.stopPropagation();
+		//event.stopImmediatePropagation();
+	       alert("我是监听函数1")
+	    },false) 
+	 btn.addEventListener("click",function(event){
+	       alert("我是监听函数2")
+	    },false) 
+	 wrap.addEventListener("click",function(event){
+	       alert("我是父级监听函数")
+	    },false) 
+```` 
+
+<iframe data-src="https://wangminghuan.github.io/demo-01.html" src="about:blank;"></iframe>
+
+[slide]
+## Event对象下的方法-阻止冒泡 
+
+[slide]
+##http://blog.jobbole.com/52430/
