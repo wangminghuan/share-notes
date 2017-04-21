@@ -26,7 +26,7 @@ javaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文
 ## 三、事件处理程序
 
 [slide]
-## 3.1 HTML事件处理程序 
+## 3.1 事件绑定-DOM中直接绑定 
 - 例子
 ````
 	<a onclick="clickLog('from=es_recommend_shouyeyy_right')" href="/jiadian/">高性价比家电</a>
@@ -35,7 +35,7 @@ javaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文
 
 [slide]
 
-## 3.2 DOM0 级事件处理程序 
+## 3.2 事件绑定-js中绑定
 - 例子
 ````
 	var btn = document.getElementById("myBtn");
@@ -43,16 +43,12 @@ javaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文
 		alert("Clicked");
 	};
 ````
-- 移除事件
-````
- 	btn.onclick=null  
-````
 - 缺点：前后覆盖
 [slide]
 
-## 3.3 DOM2级事件中的事件处理方法 
+## 3.3 事件监听
 
-`addEventListener()`  
+- `addEventListener()`  
 
 ````
 	var btn = document.getElementById("myBtn");
@@ -63,10 +59,7 @@ javaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文
     //Chrome、FireFox、Opera、Safari、IE9.0及其以上都支持
    
 ````
-
-[slide]
-
-`attachEvent` 
+- `attachEvent` 
 
 ````
 	var btn = document.getElementById("myBtn");
@@ -75,8 +68,9 @@ javaScript 与 HTML 之间的交互是通过事件实现的。事件，就是文
 	})  
    //IE8.0及其以下版本支持
 ````
-[slide]
-## DOM2级事件中的事件的解绑  
+[slide] 
+
+## 事件监听的取消  
 
 - `addEventListener()` <---->`removeEventListener()` 
 
@@ -125,7 +119,11 @@ var EventUtil = {
 ![click的event对象](../img/03.png)
 
 [slide]
-## Event对象下的方法-阻止冒泡 
+## Event对象下的方法-阻止冒泡  
+
+- 非IE: `event.stopPropagation()/event.stopImmediatePropagation()`
+- IE: `window.cancelBubble = true` 
+
 ```` 
 	var btn = document.getElementById("btn");
 	var wrap= document.getElementById("wrap");
@@ -145,8 +143,11 @@ var EventUtil = {
 <iframe data-src="https://wangminghuan.github.io/demo-01.html" src="about:blank;"></iframe>
 
 [slide]
-## Event对象下的方法-阻止默认事件  
-```` 
+## Event对象下的方法-阻止默认事件 
+- 非IE: `event.preventDefault()`  
+- IE: `window.event.returnValue = false`   
+````   
+
 	<a class="btn" href="http://bj.58.com">58同城-北京</a>
 	<a class="btn" href="http://sh.58.com">58同城-上海</a>
    
@@ -155,5 +156,27 @@ var EventUtil = {
 	      event.preventDefault();
 	    },false)
 ```` 
-[slide]
-##http://blog.jobbole.com/52430/
+<iframe data-src="https://wangminghuan.github.io/demo-02.html" src="about:blank;"></iframe>
+[slide] 
+## 事件委托
+
+[slide] 
+## 事件类型
+
+[slide] 
+## 模拟事件
+
+[slide] 
+## Vue中的事件
+
+[slide] 
+## React中的事件
+
+[slide] 
+## 问题
+
+[slide] 
+## 参考资料
+- [DOM事件简介](http://blog.jobbole.com/52430/)
+- [事件绑定、事件监听、事件委托](http://blog.xieliqun.com/2016/08/12/event-delegate/)
+- [实例分析JavaScript中的事件委托和事件绑定](http://www.diguage.com/archives/71.html)
